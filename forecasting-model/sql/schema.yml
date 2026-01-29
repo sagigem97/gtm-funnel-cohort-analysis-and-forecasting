@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: salesforce
+    description: "Raw Salesforce objects used for forecasting and pipeline modeling."
+    tables:
+      - name: opportunities
+        description: "Raw opportunities table from Salesforce."
+        columns:
+          - name: opportunity_id
+            tests:
+              - not_null
+              - unique
+      - name: quota
+        description: "Sales quota table by rep or segment."
+        columns:
+          - name: rep_id
+            tests:
+              - not_null
