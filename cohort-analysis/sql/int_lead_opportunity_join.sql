@@ -27,8 +27,8 @@ SELECT
     l.country,
     l.state,
     l.industry,
-    to_date(l.created_at) as lead_created_date,
-    to_date(o.created_at) as opportunity_created_date
-from opps AS o
+    to_date(l.created_at) AS lead_created_date,
+    to_date(o.created_at) AS opportunity_created_date
+FROM opps AS o
 left join leads AS l
-    on opps.lead_id = leads.lead_id;
+    ON opps.lead_id = leads.lead_id;
