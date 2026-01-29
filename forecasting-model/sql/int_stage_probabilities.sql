@@ -1,5 +1,7 @@
 -- Intermediate model: stage probability mapping
+-- Purpose: Define probability weights for each opportunity stage
 -- Grain: one row per stage
+-- Outputs: probability per stage
 --NOTE: I used values table used in lieu of CASE statement. Cleaner and easier to update.
 
 SELECT *
