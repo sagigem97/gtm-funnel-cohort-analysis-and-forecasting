@@ -1,7 +1,7 @@
 -- Staging model for leads
 -- Grain: one row per lead_id
 
-select
+SELECT
     lead_id,
     created_at,
     lead_source,
@@ -11,5 +11,5 @@ select
     country,
     state,
     industry,
-    cast(created_at as date) as lead_created_date
-from {{ source('salesforce', 'leads') }};
+    to_date(created_at AS date) AS lead_created_date
+FROM {{ source('salesforce', 'leads') }};
