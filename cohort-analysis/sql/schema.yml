@@ -1,0 +1,74 @@
+version: 2
+
+sources:
+  - name: salesforce
+    description: "Raw Salesforce objects used for GTM funnel and cohort analysis."
+    tables:
+      - name: leads
+        description: "Raw leads table from Salesforce."
+        columns:
+          - name: lead_id
+            tests:
+              - not_null
+              - unique
+      - name: opportunities
+        description: "Raw opportunities table from Salesforce."
+        columns:
+          - name: opportunity_id
+            tests:
+              - not_null
+              - unique
+
+models:
+  - name: stg_leads
+    description: "Cleaned and standardized Salesforce leads data."
+    columns:
+      - name: lead_id
+        description: "Unique identifier for each lead."
+        tests:
+          - not_null
+          - unique
+      - name: lead_created_date
+        description: "Date the lead was created."
+
+  - name: stg_opportunities
+    description: "Cleaned and standardized Salesforce opportunities data."
+    columns:
+      - name: opportunity_id
+        description: "Unique identifier for each opportunity."
+        tests:
+          - not_null
+          - unique
+      - name: opp_created_date
+        description: "Date the opportunity was created."
+
+  - name: int_lead_opportunity_join
+    description: "Joined leads and opportunities with standardized timestamps and shared grain."
+    columns:
+      - name: lead_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_leads')
+              field: lead_id
+      - name: opportunity_id
+        tests:
+          - relationships:
+              to: ref('stg_opportunities')
+              field: opportunity_id
+
+  - name: int_lead_cohorts
+    description: "Assigns each lead to a cohort month based on created_at."
+    columns:
+      - name: cohort_month
+        description: "Month the lead entered the funnel."
+
+  - name: mrt_cohort_analysis
+    description: "Final cohort analysis table with monthly funnel metrics and revenue realization."
+    columns:
+      - name: lead_id
+        tests:
+          - not_null
+      - name: cohort_month
+      - name: activity_month
+      - name: months_since_cohort
