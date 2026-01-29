@@ -30,5 +30,5 @@ SELECT
     to_date(l.created_at) AS lead_created_date,
     to_date(o.created_at) AS opportunity_created_date
 FROM opps AS o
-left join leads AS l
+LEFT JOIN leads AS l
     ON opps.lead_id = leads.lead_id;
