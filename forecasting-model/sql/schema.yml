@@ -17,3 +17,63 @@ sources:
           - name: rep_id
             tests:
               - not_null
+
+models:
+  - name: stg_opportunities
+    description: "Cleaned and standardized Salesforce opportunities."
+    columns:
+      - name: opportunity_id
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_quota
+    description: "Cleaned quota data by rep or segment."
+    columns:
+      - name: rep_id
+        tests:
+          - not_null
+
+  - name: int_stage_probabilities
+    description: "Static mapping of opportunity stages to probability weights."
+    columns:
+      - name: stage
+        tests:
+          - not_null
+      - name: probability
+        tests:
+          - not_null
+
+  - name: int_weighted_pipeline
+    description: "Opportunity-level weighted pipeline using stage probabilities."
+    columns:
+      - name: opportunity_id
+        tests:
+          - not_null
+      - name: weighted_pipeline
+        tests:
+          - not_null
+
+  - name: int_forecast_prep
+    description: "Opportunity-level dataset joining weighted pipeline to quota."
+    columns:
+      - name: owner_id
+        tests:
+          - not_null
+
+  - name: forecasting_mart
+    description: >
+      Final forecasting model that aggregates weighted pipeline and quota to
+      produce expected bookings, coverage metrics, and gap-to-goal at the
+      owner and quota period level.
+    columns:
+      - name: owner_id
+        tests:
+          - not_null
+      - name: quota_period
+        tests:
+          - not_null
+      - name: expected_bookings
+      - name: pipeline_coverage
+      - name: weighted_coverage
+      - name: gap_to_goal
