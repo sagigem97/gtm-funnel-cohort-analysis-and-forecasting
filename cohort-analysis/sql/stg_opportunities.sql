@@ -1,7 +1,7 @@
 -- Staging model for opportunities
 -- Grain: one row per opportunity_id
 
-select
+SELECT
     opportunity_id,
     lead_id,
     created_at,
@@ -10,5 +10,5 @@ select
     stage,
     is_closed,
     is_won,
-    cast(created_at as date) as opp_created_date
-from {{ source('salesforce', 'opportunities') }};
+    TO_DATE(created_at AS date) AS opp_created_date
+FROM {{ source('salesforce', 'opportunities') }};
